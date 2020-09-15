@@ -1,15 +1,15 @@
 <!-- 组件说明 -->
 <template>
   <div class='ebook'>
-    <div id="read"></div>
+    <ebook-reader></ebook-reader>
   </div>
 </template>
 
 <script>
-import Epub from 'epubjs'
+import ebookReader from '../../components/ebook/EbookReader'
 export default {
   components: {
-
+    ebookReader
   },
   data () {
     return {
@@ -20,18 +20,8 @@ export default {
 
   },
   mounted () {
-    this.showBook()
   },
   methods: {
-    showBook () {
-      this.book = new Epub()
-      this.redition = this.book.rederTo('read', {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        method: 'default'
-      })
-      this.redition.display()
-    }
   }
 }
 </script>

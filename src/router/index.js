@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import ebook from '../views/ebook/index.vue'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -8,7 +7,11 @@ const routes = [
     redirect: '/ebook'
   }, {
     path: '/ebook',
-    component: ebook
+    component: () => import('../views/ebook/index.vue'),
+    children: [{
+      path: ':fileName',
+      component: () => import('../components/ebook/EbookReader.vue')
+    }]
   }
 ]
 const router = new VueRouter({
