@@ -2,38 +2,36 @@
 <template>
     <div class='menu-bar'>
       <transition name='slide-up'>
-        <div class="menu-wrapper" v-show='isShowTitleAndMenu'>
+        <div class="menu-wrapper" v-show='menuVisible'>
           <span class="icon icon-menu" @click="showFontSizeShow(3)"></span>
           <span class="icon icon-progress" @click="showFontSizeShow(2)"></span>
           <span class="icon icon-bright" @click="showFontSizeShow(1)"></span>
           <span class="icon icon-A" @click="showFontSizeShow(0)"></span>
         </div>
       </transition>
+      <set-font-size></set-font-size>
     </div>
 </template>
 
 <script>
+import { ebookMixin } from '../../utils/mixin'
+import setFontSize from './SetFontSize'
 export default {
+  mixins: [ebookMixin],
   props: {
-    isShowTitleAndMenu: {
-      type: Boolean,
-      default: false
-    }
+
   },
   components: {
-
+    setFontSize
   },
   data () {
     return {
 
     }
   },
-  computed: {
-
-  },
   methods: {
     showFontSizeShow (tag) {
-      console.log(tag)
+      this.setMenuTag(tag)
     }
   }
 }

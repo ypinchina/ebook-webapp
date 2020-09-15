@@ -2,7 +2,7 @@
 <template>
   <div class="titleBar">
     <transition name='slide-down'>
-    <div class='title-wrapper' v-show='isShowTitleAndMenu'>
+    <div class='title-wrapper' v-show='menuVisible'>
       <div class="left" @click='back'>
         <span class="icon icon-back"></span>
       </div>
@@ -23,12 +23,11 @@
 </template>
 
 <script>
+import { ebookMixin } from '../../utils/mixin'
 export default {
+  mixins: [ebookMixin],
   props: {
-    isShowTitleAndMenu: {
-      type: Boolean,
-      default: false
-    }
+
   },
   data () {
     return {

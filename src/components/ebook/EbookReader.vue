@@ -1,38 +1,33 @@
 <!-- 组件说明 -->
 <template>
   <div class='ebook-reader'>
-    <title-bar :isShowTitleAndMenu='isShowTitleAndMenu'></title-bar>
     <div id="read"></div>
-    <menu-bar :isShowTitleAndMenu='isShowTitleAndMenu'></menu-bar>
   </div>
 </template>
 
 <script>
+import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
-import titleBar from './TitleBar'
-import menuBar from './MenuBar'
 global.Epub = Epub
 export default {
-  components: {
-    titleBar, menuBar
-  },
   data () {
     return {
-      isShowTitleAndMenu: false
+
     }
   },
+  mixins: [ebookMixin],
   computed: {
 
   },
   mounted () {
     const fileName = this.$route.params.fileName.split('|').join('/')
-    this.$store.dispatch('setFileName', fileName).then(() => {
+    this.setFileName(fileName).then(() => {
       this.initBook()
     })
   },
   methods: {
     initBook () {
-      const BASE_URL = 'http://192.168.100.110:8081/epub/' + this.$store.state.book.fileName + '.epub'
+      const BASE_URL = 'http://192.168.100.110:8081/epub/' + this.fileName + '.epub'
       this.book = new Epub(BASE_URL)
       this.rendition = this.book.renderTo('read', {
         width: window.innerWidth,
@@ -61,17 +56,20 @@ export default {
     prevPage () {
       if (this.rendition) {
         this.rendition.prev()
-        this.isShowTitleAndMenu = false
+        this.hideTitleAndMenu()
       }
     },
     nextPage () {
       if (this.rendition) {
         this.rendition.next()
-        this.isShowTitleAndMenu = false
+        this.hideTitleAndMenu()
       }
     },
     toggleTitleAndMenu () {
-      this.isShowTitleAndMenu = !this.isShowTitleAndMenu
+      this.setMenuVisible(!this.menuVisible)
+    },
+    hideTitleAndMenu () {
+      this.setMenuVisible(false)
     }
   }
 }
