@@ -1,5 +1,5 @@
-export const menuFun = {
-  fontSizeList: [{
+export const fontSizeList = [
+  {
     fontSize: 12
   }, {
     fontSize: 14
@@ -15,5 +15,18 @@ export const menuFun = {
     fontSize: 24
   }, {
     fontSize: 26
-  }]
-}
+  }
+]
+export const FONT_FAMILY = [
+  {
+    font: 'Default'
+  }, {
+    font: 'Cabin'
+  }, {
+    font: 'Days One'
+  }, {
+    font: 'Montserrat'
+  }, {
+    font: 'Tangerine'
+  }
+]

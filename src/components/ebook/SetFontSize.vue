@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-  <div class=''>
+  <div>
     <transition name='slide-up'>
       <div class="handleBar" v-show='menuTag === 0' >
         <div class="font-size-wrapper">
@@ -20,6 +20,14 @@
           </div>
           <div class="preview" :style="{fontSize: fontSizeList[fontSizeList.length - 1].fontSize + 'px'}">A</div>
         </div>
+        <div class="select-web-font-wrapper" @click='showFontFamily'>
+          <div class="select-web-font-wrapper-text">
+            <span>{{defaultFontFamily}}</span>
+          </div>
+          <div class="select-web-font-wrapper-icon">
+            <span class="icon icon-forward"></span>
+          </div>
+        </div>
       </div>
     </transition>
   </div>
@@ -28,39 +36,61 @@
 <script>
 
 import { ebookMixin } from '../../utils/mixin'
-import { menuFun } from '../../utils/book'
+import { fontSizeList } from '../../utils/book'
 export default {
-  mixins: [ebookMixin, menuFun],
+  mixins: [ebookMixin, fontSizeList],
   components: {
 
   },
   data () {
     return {
-      fontSizeList: menuFun.fontSizeList
+      fontSizeList: fontSizeList
     }
   },
   computed: {
 
   },
   methods: {
+    setFontSize (newFontSize) {
+      this.setDefaultFontSize(newFontSize)
+      const themes = this.getBook.rendition.themes
+      if (themes) {
+        themes.fontSize(newFontSize)
+      }
+    },
+    showFontFamily () {
+      this.setFontFamilyVisible(true)
+    }
   }
 }
 </script>
 
 <style lang='stylus' scoped>
-// @import '../../assets/'
+@import '../../assets/styles/mixin.styl'
 .handleBar
   position absolute
   left 0
   bottom 40px
-  height px2rem(140)
+  height px2rem(180)
   z-index 101
   background #fff
   width 100%
   box-shadow 0 px2rem(-8) px2rem(8) rgba(0, 0, 0, 0.15)
+  display flex
+  flex-direction column
+  .select-web-font-wrapper
+    flex 1
+    center()
+    width 100%
+    .select-web-font-wrapper-text
+      center()
+    .select-web-font-wrapper-icon
+      center()
   .font-size-wrapper
+    flex 2
     display flex
     height 100%
+    width 100%
     .preview
       flex 0 0 px2rem(40)
       center()
@@ -86,9 +116,9 @@ export default {
           width 0
           height px2rem(14)
           .point
-            left -12px
-            top -10px
             position absolute
+            top px2rem(-20)
+            left -12px
             border-radius 50%
             height px2rem(50)
             width px2rem(50)

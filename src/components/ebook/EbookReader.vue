@@ -29,6 +29,7 @@ export default {
     initBook () {
       const BASE_URL = 'http://192.168.100.110:8081/epub/' + this.fileName + '.epub'
       this.book = new Epub(BASE_URL)
+      this.setBook(this.book)// book对象存入vuex
       this.rendition = this.book.renderTo('read', {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -57,19 +58,25 @@ export default {
       if (this.rendition) {
         this.rendition.prev()
         this.hideTitleAndMenu()
+        this.setFontFamilyVisible(false)
       }
     },
     nextPage () {
       if (this.rendition) {
         this.rendition.next()
         this.hideTitleAndMenu()
+        this.setFontFamilyVisible(false)
       }
     },
     toggleTitleAndMenu () {
       this.setMenuVisible(!this.menuVisible)
+      this.setMenuTag(-1)
+      this.setFontFamilyVisible(false)
     },
     hideTitleAndMenu () {
       this.setMenuVisible(false)
+      this.setMenuTag(-1)
+      this.setFontFamilyVisible(false)
     }
   }
 }

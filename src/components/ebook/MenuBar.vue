@@ -10,11 +10,13 @@
         </div>
       </transition>
       <set-font-size></set-font-size>
+      <font-family-pop-up></font-family-pop-up>
     </div>
 </template>
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
+import fontFamilyPopUp from './fontFamilyPopUp'
 import setFontSize from './SetFontSize'
 export default {
   mixins: [ebookMixin],
@@ -22,7 +24,7 @@ export default {
 
   },
   components: {
-    setFontSize
+    setFontSize, fontFamilyPopUp
   },
   data () {
     return {

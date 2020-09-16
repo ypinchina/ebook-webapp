@@ -5,8 +5,16 @@ px2rem($px) {
 .slide-down-enter,.slide-down-leave-to
   transform translate3d(0, -100%, 0)
 .slide-up-enter,.slide-up-leave-to
-  transform translate3d(0, px2rem(260), 0)
-.slide-down-enter-active,.slide-up-enter-active,.slide-down-leave-active,.slide-up-leave-active,.slide-left-enter-active,.slide-left-leave-active,.fade-enter-active,.fade-leave-active
+  transform translate3d(0, px2rem(300), 0)
+.slide-down-enter-active,
+.slide-up-enter-active,
+.slide-down-leave-active,
+.slide-up-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active,
+.fade-enter-active,
+.fade-leave-active,
+.slide-fadeAndDown-enter-active, .slide-fadeAndDown-leave-active
   transition all 0.2s linear
 .slide-down-enter-to, .slide-down-leave, .slide-up-enter-to, .slide-up-leave
   transform translate3d(0, 0, 0)
@@ -17,4 +25,10 @@ px2rem($px) {
 .fade-enter,.fade-leave-to
   opacity 0
 .fade-enter-to,.fade-leave
+  opacity 1
+.slide-fadeAndDown-enter, .slide-fadeAndDown-leave-to
+  transform translate3d(0, 100%, 0)
+  opacity 0
+.slide-fadeAndDown-enter-to, .slide-fadeAndDown-leave
+  transform translate3d(0, 0, 0)
   opacity 1

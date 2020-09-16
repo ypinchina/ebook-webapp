@@ -10,6 +10,15 @@ const actions = {
   },
   setDefaultFontSize: ({ commit }, newVal) => {
     return commit('set_defaultFontize', newVal)
+  },
+  setBook: ({ commit }, newObj) => {
+    return commit('set_book', newObj)
+  },
+  setFontFamilyVisible: ({ commit }, newVal) => {
+    return commit('set_fontFamilyVisible', newVal)
+  },
+  setDefaultFamily: ({ commit }, newVal) => {
+    return commit('set_defaultFontFamily', newVal)
   }
 }
 export default actions
