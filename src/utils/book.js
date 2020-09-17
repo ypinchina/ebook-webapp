@@ -30,3 +30,36 @@ export const FONT_FAMILY = [
     font: 'Tangerine'
   }
 ]
+export const THEMES = [{
+  name: 'default',
+  style: {
+    body: {
+      color: '#000',
+      background: '#fff'
+    }
+  }
+}, {
+  name: 'eye',
+  style: {
+    body: {
+      color: '#000',
+      background: '#cce8cf'
+    }
+  }
+}, {
+  name: 'night',
+  style: {
+    body: {
+      color: '#fff',
+      background: '#666'
+    }
+  }
+}, {
+  name: 'gold',
+  style: {
+    body: {
+      color: '#000',
+      background: '#f2ede3'
+    }
+  }
+}]

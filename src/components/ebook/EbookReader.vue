@@ -7,12 +7,13 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
+import { THEMES } from '../../utils/book'
 import Epub from 'epubjs'
 global.Epub = Epub
 export default {
   data () {
     return {
-
+      themesList: THEMES
     }
   },
   mixins: [ebookMixin],
@@ -36,6 +37,18 @@ export default {
         method: 'default'
       })
       this.rendition.display()
+      // 给book对象导入外部资源的web字体，字体放在nginx服务器上
+      this.rendition.hooks.content.register(contents => {
+        // contentes.addStylesheet()返回一个Promise对象,所以可以用Promise.all接受所有回调
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/tangerine.css`)]).then(() => {})
+      }) // 方便做加载网络字体成功后的统一处理
+      if (this.defaultFontFamily === 'Default') {
+        this.rendition.themes.font('Times New Roman')
+      }
       this.rendition.on('touchstart', (event) => {
         this.startClientX = event.changedTouches[0].clientX
         this.startTime = event.timeStamp
@@ -53,6 +66,8 @@ export default {
         event.preventDefault()
         event.stopPropagation()
       })
+      // 注册主题
+      this.registerThemes()
     },
     prevPage () {
       if (this.rendition) {
@@ -77,6 +92,16 @@ export default {
       this.setMenuVisible(false)
       this.setMenuTag(-1)
       this.setFontFamilyVisible(false)
+    },
+    registerThemes () {
+      this.themesList.forEach(themes => {
+        this.rendition.themes.register(themes.name, themes.style)
+      })
+      this.setThemes(this.defaultTheme)
+    },
+    setThemes (index) {
+      this.setDefaultTheme(index)
+      this.rendition.themes.select(this.themesList[index].name)
     }
   }
 }

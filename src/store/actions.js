@@ -19,6 +19,9 @@ const actions = {
   },
   setDefaultFamily: ({ commit }, newVal) => {
     return commit('set_defaultFontFamily', newVal)
+  },
+  setDefaultTheme: ({ commit }, newVal) => {
+    return commit('set_defaultTheme', newVal)
   }
 }
 export default actions

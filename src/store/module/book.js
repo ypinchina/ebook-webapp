@@ -6,7 +6,8 @@ const book = {
     defaultFontSize: 16,
     book: {},
     defaultFontFamily: 'Default',
-    fontFamilyVisible: false
+    fontFamilyVisible: false,
+    defaultTheme: 0// 默认的主题
   },
   mutations: {
     set_fileName: (state, newVal) => {
@@ -29,6 +30,9 @@ const book = {
     },
     set_fontFamilyVisible: (state, newVal) => {
       state.fontFamilyVisible = newVal
+    },
+    set_defaultTheme: (state, newVal) => {
+      state.defaultTheme = newVal
     }
   }
 }

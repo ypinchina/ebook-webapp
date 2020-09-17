@@ -11,6 +11,7 @@
       </transition>
       <set-font-size></set-font-size>
       <font-family-pop-up></font-family-pop-up>
+      <theme-style></theme-style>
     </div>
 </template>
 
@@ -18,13 +19,14 @@
 import { ebookMixin } from '../../utils/mixin'
 import fontFamilyPopUp from './fontFamilyPopUp'
 import setFontSize from './SetFontSize'
+import themeStyle from './ThemeStyle'
 export default {
   mixins: [ebookMixin],
   props: {
 
   },
   components: {
-    setFontSize, fontFamilyPopUp
+    setFontSize, fontFamilyPopUp, themeStyle
   },
   data () {
     return {
@@ -40,9 +42,9 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
-@import '../../assets/styles/global.styl'
 @import '../../assets/styles/mixin.styl'
 .menu-bar
+    position relative
   .menu-wrapper
     width 100%
     height px2rem(120)

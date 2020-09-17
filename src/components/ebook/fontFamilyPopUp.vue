@@ -47,12 +47,21 @@ export default {
     },
     selectFontFamily (item) {
       this.setDefaultFamily(item.font)
+      const themes = this.getBook.rendition.themes
+      if (themes) {
+        if (item.font === 'Default') {
+          themes.font('Times New Roman')
+        } else {
+          themes.font(item.font)
+        }
+      }
     }
   }
 }
 </script>
 
 <style lang='stylus' scoped>
+@import '../../assets/styles/mixin.styl'
 .font-family-pop-up-wrapper
   position absolute
   left 0
@@ -60,26 +69,35 @@ export default {
   width 100%
   z-index 200
   background #ffffff
+  display block
   .pop-up-title
+    box-shadow 0 px2rem(-8) px2rem(8) rgba(0, 0, 0, 0.15)
     position relative
     text-align center
-    border-bottom 1px #ccc solid
-    padding 10px
-    center()
+    border-bottom px2rem(1) #b8b9bb solid
+    padding px2rem(30)
+    box-sizing border-box
+    .title-text
+      font-weight bold
     .title-icon
+      top 0
+      center()
+      height 100%
       position absolute
-      left 10px
+      left px2rem(40)
   .pop-up-item-wrapper
     .pop-up-item
-      padding 10px
+      padding px2rem(40)
       display flex
       &.selectFocus
-        color blue
+        color #346cb9
         font-weight bold
       .item-text
         flex 1
         justify-items flex-start
       .item-select-icon
-        flex 0 0 20px
+        flex 0 0 px2rem(40)
         justify-items flex-end
+        span
+          font-weight bold
 </style>
