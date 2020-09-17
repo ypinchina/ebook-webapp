@@ -28,6 +28,7 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import { FONT_FAMILY } from '../../utils/book'
+import { setStorage } from '../../utils/storage'
 export default {
   mixins: [ebookMixin, FONT_FAMILY],
   components: {
@@ -47,6 +48,7 @@ export default {
     },
     selectFontFamily (item) {
       this.setDefaultFamily(item.font)
+      setStorage('fontFamily', item.font)
       const themes = this.getBook.rendition.themes
       if (themes) {
         if (item.font === 'Default') {

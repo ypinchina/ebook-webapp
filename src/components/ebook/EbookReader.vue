@@ -8,6 +8,7 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import { THEMES } from '../../utils/book'
+import { getStorage, setStorage } from '../../utils/storage'
 import Epub from 'epubjs'
 global.Epub = Epub
 export default {
@@ -37,18 +38,9 @@ export default {
         method: 'default'
       })
       this.rendition.display()
-      // 给book对象导入外部资源的web字体，字体放在nginx服务器上
-      this.rendition.hooks.content.register(contents => {
-        // contentes.addStylesheet()返回一个Promise对象,所以可以用Promise.all接受所有回调
-        Promise.all([
-          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/daysOne.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/cabin.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/montserrat.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/tangerine.css`)]).then(() => {})
-      }) // 方便做加载网络字体成功后的统一处理
-      if (this.defaultFontFamily === 'Default') {
-        this.rendition.themes.font('Times New Roman')
-      }
+      // 电子书渲染
+      this.initFont()
+      // 电子书字体初始化
       this.rendition.on('touchstart', (event) => {
         this.startClientX = event.changedTouches[0].clientX
         this.startTime = event.timeStamp
@@ -102,6 +94,29 @@ export default {
     setThemes (index) {
       this.setDefaultTheme(index)
       this.rendition.themes.select(this.themesList[index].name)
+    },
+    initFont () {
+      // 给book对象导入外部资源的web字体，字体放在nginx服务器上
+      this.rendition.hooks.content.register(contents => {
+        // contentes.addStylesheet()返回一个Promise对象,所以可以用Promise.all接受所有回调
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/tangerine.css`)]).then(() => {
+          const storageFontFamily = getStorage('fontFamily')
+          if (!storageFontFamily) {
+            setStorage('fontFamily', this.defaultFontFamily)
+          } else {
+            this.setDefaultFamily(getStorage('fontFamily'))
+          }
+          if (this.defaultFontFamily === 'Default') {
+            this.rendition.themes.font('Times New Roman')
+          } else {
+            this.rendition.themes.font(this.defaultFontFamily)
+          }
+        })
+      }) // 方便做加载网络字体成功后的统一处理
     }
   }
 }

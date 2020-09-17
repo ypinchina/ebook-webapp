@@ -12,6 +12,7 @@
       <set-font-size></set-font-size>
       <font-family-pop-up></font-family-pop-up>
       <theme-style></theme-style>
+      <progress-bar></progress-bar>
     </div>
 </template>
 
@@ -20,13 +21,14 @@ import { ebookMixin } from '../../utils/mixin'
 import fontFamilyPopUp from './fontFamilyPopUp'
 import setFontSize from './SetFontSize'
 import themeStyle from './ThemeStyle'
+import progressBar from './progress'
 export default {
   mixins: [ebookMixin],
   props: {
 
   },
   components: {
-    setFontSize, fontFamilyPopUp, themeStyle
+    setFontSize, fontFamilyPopUp, themeStyle, progressBar
   },
   data () {
     return {
