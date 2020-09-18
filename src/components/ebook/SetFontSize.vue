@@ -37,6 +37,7 @@
 
 import { ebookMixin } from '../../utils/mixin'
 import { fontSizeList } from '../../utils/book'
+import { setUserHabit } from '../../utils/storage'
 export default {
   mixins: [ebookMixin, fontSizeList],
   components: {
@@ -52,6 +53,7 @@ export default {
   },
   methods: {
     setFontSize (newFontSize) {
+      setUserHabit(this.fileName, 'fontSize', newFontSize) // 将字体大小存入本地存储
       this.setDefaultFontSize(newFontSize)
       const themes = this.getBook.rendition.themes
       if (themes) {

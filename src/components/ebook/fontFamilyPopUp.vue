@@ -7,7 +7,7 @@
           <span class="icon icon-down2"></span>
         </div>
         <div class="title-text">
-          <span class="text">选择字体</span>
+          <span class="text">{{$t('book.selectFont')}}</span>
         </div>
       </div>
       <div class="pop-up-item-wrapper">
@@ -28,7 +28,7 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import { FONT_FAMILY } from '../../utils/book'
-import { setStorage } from '../../utils/storage'
+import { setUserHabit } from '../../utils/storage'
 export default {
   mixins: [ebookMixin, FONT_FAMILY],
   components: {
@@ -48,7 +48,7 @@ export default {
     },
     selectFontFamily (item) {
       this.setDefaultFamily(item.font)
-      setStorage('fontFamily', item.font)
+      setUserHabit(this.fileName, 'fontFamily', item.font)
       const themes = this.getBook.rendition.themes
       if (themes) {
         if (item.font === 'Default') {

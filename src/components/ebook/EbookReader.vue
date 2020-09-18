@@ -8,7 +8,7 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import { THEMES } from '../../utils/book'
-import { getStorage, setStorage } from '../../utils/storage'
+import { setUserHabit, getUserHabit } from '../../utils/storage'
 import Epub from 'epubjs'
 global.Epub = Epub
 export default {
@@ -96,6 +96,14 @@ export default {
       this.rendition.themes.select(this.themesList[index].name)
     },
     initFont () {
+      // 初始化字体大小 先从本地读取用户字体大小的习惯
+      const storageFontSize = getUserHabit(this.fileName, 'fontSize')
+      if (!storageFontSize) {
+        setUserHabit(this.fileName, 'fontSize', this.defaultFontSize)
+      } else {
+        this.setDefaultFontSize(storageFontSize)
+      }
+      this.rendition.themes.fontSize(storageFontSize)
       // 给book对象导入外部资源的web字体，字体放在nginx服务器上
       this.rendition.hooks.content.register(contents => {
         // contentes.addStylesheet()返回一个Promise对象,所以可以用Promise.all接受所有回调
@@ -104,11 +112,11 @@ export default {
           contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/cabin.css`),
           contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/montserrat.css`),
           contents.addStylesheet(`${process.env.VUE_APP_DEV_URL}/web-font/tangerine.css`)]).then(() => {
-          const storageFontFamily = getStorage('fontFamily')
+          const storageFontFamily = getUserHabit(this.fileName, 'fontFamily')
           if (!storageFontFamily) {
-            setStorage('fontFamily', this.defaultFontFamily)
+            setUserHabit(this.fileName, 'fontFamily', this.defaultFontFamily)
           } else {
-            this.setDefaultFamily(getStorage('fontFamily'))
+            this.setDefaultFamily(storageFontFamily)
           }
           if (this.defaultFontFamily === 'Default') {
             this.rendition.themes.font('Times New Roman')
