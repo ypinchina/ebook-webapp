@@ -4,9 +4,9 @@
     <div class="setThemes-wrapper" v-show='menuTag === 1'>
       <div class="themesItem" v-for='(item, index) in themesList' :key='index' @click='selectThemes(index)'>
         <div class="preview" :style="{background: item.style.body.background}"
-        :class="{'no-border': index !== 0}"
+        :class="{'active-border': index === defaultTheme}"
         ></div>
-        <div class="text" :class="{'activeThemes': index === defaultTheme}">{{item.name}}</div>
+        <div class="text" :class="{'activeThemes': index === defaultTheme}">{{item.alias}}</div>
       </div>
     </div>
 </transition>
@@ -14,7 +14,8 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
-import { THEMES } from '../../utils/book'
+import { themeList, addThemeLink } from '../../utils/book'
+import { setUserHabit } from '../../utils/storage'
 export default {
   mixins: [ebookMixin],
   components: {
@@ -22,7 +23,7 @@ export default {
   },
   data () {
     return {
-      themesList: THEMES
+      themesList: themeList(this)
     }
   },
   computed: {
@@ -31,7 +32,10 @@ export default {
   methods: {
     selectThemes (index) {
       this.setDefaultTheme(index)
-      this.getBook.rendition.themes.select(this.themesList[index].name)
+      const themeName = this.themesList[index].name
+      this.getBook.rendition.themes.select(themeName)
+      setUserHabit(this.fileName, 'theme', index)
+      addThemeLink(index)
     }
   }
 }
@@ -61,9 +65,8 @@ export default {
       flex 1
       width 100%
       height px2rem(40)
-      border 1px #666 solid
-      &.no-border
-        border none
+      &.active-border
+        border 1px solid #f00
     .text
       display flex
       align-items center
@@ -72,4 +75,5 @@ export default {
       color #ccc
       &.activeThemes
         color #000
+        font-weight bold
 </style>

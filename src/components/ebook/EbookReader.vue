@@ -7,14 +7,14 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
-import { THEMES } from '../../utils/book'
+import { themeList, addThemeLink } from '../../utils/book'
 import { setUserHabit, getUserHabit } from '../../utils/storage'
 import Epub from 'epubjs'
 global.Epub = Epub
 export default {
   data () {
     return {
-      themesList: THEMES
+      themesList: themeList(this)
     }
   },
   mixins: [ebookMixin],
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     initBook () {
-      const BASE_URL = 'http://192.168.100.110:8081/epub/' + this.fileName + '.epub'
+      const BASE_URL = process.env.VUE_APP_DEV_URL + '/epub/' + this.fileName + '.epub'
       this.book = new Epub(BASE_URL)
       this.setBook(this.book)// book对象存入vuex
       this.rendition = this.book.renderTo('read', {
@@ -41,6 +41,9 @@ export default {
       // 电子书渲染
       this.initFont()
       // 电子书字体初始化
+      // 注册主题
+      this.registerThemes()
+      // 手势操作绑定
       this.rendition.on('touchstart', (event) => {
         this.startClientX = event.changedTouches[0].clientX
         this.startTime = event.timeStamp
@@ -58,8 +61,6 @@ export default {
         event.preventDefault()
         event.stopPropagation()
       })
-      // 注册主题
-      this.registerThemes()
     },
     prevPage () {
       if (this.rendition) {
@@ -89,9 +90,16 @@ export default {
       this.themesList.forEach(themes => {
         this.rendition.themes.register(themes.name, themes.style)
       })
-      this.setThemes(this.defaultTheme)
+      const userHabitTheme = getUserHabit(this.fileName, 'theme')
+      if (!userHabitTheme) {
+        setUserHabit(this.fileName, 'theme', this.defaultTheme)
+        this.setThemes(this.defaultTheme)
+      } else {
+        this.setThemes(userHabitTheme)
+      }
     },
     setThemes (index) {
+      addThemeLink(index)
       this.setDefaultTheme(index)
       this.rendition.themes.select(this.themesList[index].name)
     },
