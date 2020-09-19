@@ -22,6 +22,18 @@ const actions = {
   },
   setDefaultTheme: ({ commit }, newVal) => {
     return commit('set_defaultTheme', newVal)
+  },
+  setBookAvailable: ({ commit }, newVal) => {
+    return commit('set_bookAvailable', newVal)
+  },
+  setProgress: ({ commit }, newVal) => {
+    return commit('set_progress', newVal)
+  },
+  setLocationObject: ({ commit }, newObj) => {
+    return commit('set_locationObject', newObj)
+  },
+  setSection: ({ commit }, newObj) => {
+    return commit('set_section', newObj)
   }
 }
 export default actions

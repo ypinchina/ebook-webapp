@@ -43,6 +43,15 @@ export default {
       // 电子书字体初始化
       // 注册主题
       this.registerThemes()
+      // 读取location对象
+      this.book.ready.then(() => {
+        this.navigation = this.book.navigation
+        // this.navigation.toc.label 章节标题 .href跳转链接
+        return this.book.locations.generate()
+      }).then(() => {
+        this.setLocationObject(this.book.locations)
+        this.setBookAvailable(true)
+      })
       // 手势操作绑定
       this.rendition.on('touchstart', (event) => {
         this.startClientX = event.changedTouches[0].clientX
@@ -64,17 +73,29 @@ export default {
     },
     prevPage () {
       if (this.rendition) {
-        this.rendition.prev()
+        this.rendition.prev().then(() => {
+          this.changeProgressForPage()
+        })
         this.hideTitleAndMenu()
         this.setFontFamilyVisible(false)
       }
     },
     nextPage () {
       if (this.rendition) {
-        this.rendition.next()
+        this.rendition.next().then(() => {
+          this.changeProgressForPage()
+        })
         this.hideTitleAndMenu()
         this.setFontFamilyVisible(false)
       }
+    },
+    changeProgressForPage () {
+      const currentLocation = this.getBook.rendition.currentLocation()
+      const currentSectionIndex = currentLocation.start.index
+      if (currentSectionIndex !== this.section) {
+        this.setSection(currentSectionIndex)
+      }
+      this.setProgress(this.bookAvailable ? Math.round(this.getBook.locations.percentageFromCfi(currentLocation.start.cfi) * 100) : 0)
     },
     toggleTitleAndMenu () {
       this.setMenuVisible(!this.menuVisible)

@@ -7,7 +7,11 @@ const book = {
     book: {},
     defaultFontFamily: 'Default',
     fontFamilyVisible: false,
-    defaultTheme: 0// 默认的主题
+    defaultTheme: 0, // 默认的主题
+    bookAvailable: false,
+    progress: 0,
+    locationObject: {},
+    section: 0 // 目前阅读的章节
   },
   mutations: {
     set_fileName: (state, newVal) => {
@@ -33,6 +37,18 @@ const book = {
     },
     set_defaultTheme: (state, newVal) => {
       state.defaultTheme = newVal
+    },
+    set_bookAvailable: (state, newVal) => {
+      state.bookAvailable = newVal
+    },
+    set_progress: (state, newVal) => {
+      state.progress = newVal
+    },
+    set_locationObject: (state, newObj) => {
+      state.locationObject = newObj
+    },
+    set_section: (state, newVal) => {
+      state.section = newVal
     }
   }
 }

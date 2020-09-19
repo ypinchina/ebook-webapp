@@ -6,6 +6,10 @@ const book = {
   getBook: state => state.book.book,
   defaultFontFamily: state => state.book.defaultFontFamily,
   fontFamilyVisible: state => state.book.fontFamilyVisible,
-  defaultTheme: state => state.book.defaultTheme
+  defaultTheme: state => state.book.defaultTheme,
+  bookAvailable: state => state.book.bookAvailable,
+  progress: state => state.book.progress,
+  locationObject: state => state.book.locationObject,
+  section: state => state.book.section
 }
 export default book
