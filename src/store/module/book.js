@@ -11,7 +11,9 @@ const book = {
     bookAvailable: false,
     progress: 0,
     locationObject: {},
-    section: 0 // 目前阅读的章节
+    section: 0, // 目前阅读的章节
+    cover: '', // 封面
+    metaData: {} // 作者信息，书本基础信息
   },
   mutations: {
     set_fileName: (state, newVal) => {
@@ -49,6 +51,12 @@ const book = {
     },
     set_section: (state, newVal) => {
       state.section = newVal
+    },
+    set_cover: (state, newVal) => {
+      state.cover = newVal
+    },
+    set_metaData: (state, newObj) => {
+      state.metaData = newObj
     }
   }
 }

@@ -13,6 +13,7 @@
       <font-family-pop-up></font-family-pop-up>
       <theme-style></theme-style>
       <progress-bar></progress-bar>
+      <ebook-slide></ebook-slide>
     </div>
 </template>
 
@@ -22,13 +23,14 @@ import fontFamilyPopUp from './fontFamilyPopUp'
 import setFontSize from './SetFontSize'
 import themeStyle from './ThemeStyle'
 import progressBar from './progress'
+import ebookSlide from './EbookSlide'
 export default {
   mixins: [ebookMixin],
   props: {
 
   },
   components: {
-    setFontSize, fontFamilyPopUp, themeStyle, progressBar
+    setFontSize, fontFamilyPopUp, themeStyle, progressBar, ebookSlide
   },
   data () {
     return {
@@ -46,7 +48,6 @@ export default {
 <style lang='stylus' scoped>
 @import '../../assets/styles/mixin.styl'
 .menu-bar
-    position relative
   .menu-wrapper
     width 100%
     height px2rem(120)

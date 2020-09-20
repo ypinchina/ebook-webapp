@@ -40,7 +40,8 @@ export default {
         setUserHabit(this.fileName, 'readTime', readTime)
       }
       this.countTime = setInterval(() => {
-        setUserHabit(this.fileName, 'readTime', readTime + 1)
+        readTime++
+        setUserHabit(this.fileName, 'readTime', readTime)
       }, 60000)
     }
   }

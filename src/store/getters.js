@@ -10,6 +10,8 @@ const book = {
   bookAvailable: state => state.book.bookAvailable,
   progress: state => state.book.progress,
   locationObject: state => state.book.locationObject,
-  section: state => state.book.section
+  section: state => state.book.section,
+  cover: state => state.book.cover,
+  metaData: state => state.book.metaData
 }
 export default book

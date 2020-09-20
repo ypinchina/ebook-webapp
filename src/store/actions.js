@@ -34,6 +34,12 @@ const actions = {
   },
   setSection: ({ commit }, newObj) => {
     return commit('set_section', newObj)
+  },
+  setCover: ({ commit }, newObj) => {
+    return commit('set_cover', newObj)
+  },
+  setMetaData: ({ commit }, newObj) => {
+    return commit('set_metaData', newObj)
   }
 }
 export default actions

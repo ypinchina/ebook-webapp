@@ -50,7 +50,7 @@ export default {
     },
     sectionTitle () {
       const sectionObj = this.getBook.section(this.section)
-      if (sectionObj && sectionObj.href) {
+      if (sectionObj && sectionObj.href && this.getBook && this.getBook.navigation) {
         return this.getBook.navigation.get(sectionObj.href).label
       } else {
         return null
@@ -62,7 +62,12 @@ export default {
       return this.$t('book.haveRead').replace('$1', this.getTimePass())
     },
     getTimePass () {
-      return getUserHabit(this.fileName, 'readTime')
+      const readTime = getUserHabit(this.fileName, 'readTime')
+      if (!readTime) {
+        return 0
+      } else {
+        return readTime
+      }
     },
     progressInput (progress) {
       this.setProgress(progress)

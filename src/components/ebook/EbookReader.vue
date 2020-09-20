@@ -53,23 +53,8 @@ export default {
         this.setBookAvailable(true)
       })
       // 手势操作绑定
-      this.rendition.on('touchstart', (event) => {
-        this.startClientX = event.changedTouches[0].clientX
-        this.startTime = event.timeStamp
-      })
-      this.rendition.on('touchend', (event) => {
-        const clientXGap = event.changedTouches[0].clientX - this.startClientX
-        const timeGap = event.timeStamp - this.startTime
-        if (clientXGap > 40 && timeGap < 500) {
-          this.prevPage()
-        } else if (clientXGap < -40 && timeGap < 500) {
-          this.nextPage()
-        } else {
-          this.toggleTitleAndMenu()
-        }
-        event.preventDefault()
-        event.stopPropagation()
-      })
+      this.initGesture()
+      this.bookParse()
     },
     prevPage () {
       if (this.rendition) {
@@ -88,6 +73,36 @@ export default {
         this.hideTitleAndMenu()
         this.setFontFamilyVisible(false)
       }
+    },
+    initGesture () {
+      this.rendition.on('touchstart', (event) => {
+        this.startClientX = event.changedTouches[0].clientX
+        this.startTime = event.timeStamp
+      })
+      this.rendition.on('touchend', (event) => {
+        const clientXGap = event.changedTouches[0].clientX - this.startClientX
+        const timeGap = event.timeStamp - this.startTime
+        if (clientXGap > 40 && timeGap < 500) {
+          this.prevPage()
+        } else if (clientXGap < -40 && timeGap < 500) {
+          this.nextPage()
+        } else {
+          this.toggleTitleAndMenu()
+        }
+        event.preventDefault()
+        event.stopPropagation()
+      })
+    },
+    bookParse () {
+      this.book.loaded.cover.then((cover) => {
+        this.book.archive.createUrl(cover).then((url) => {
+          this.setCover(url)
+        })
+      })
+      this.book.loaded.metadata.then((obj) => {
+        console.log(obj)
+        this.setMetaData(obj)
+      })
     },
     changeProgressForPage () {
       const currentLocation = this.getBook.rendition.currentLocation()
