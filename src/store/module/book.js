@@ -13,7 +13,8 @@ const book = {
     locationObject: {},
     section: 0, // 目前阅读的章节
     cover: '', // 封面
-    metaData: {} // 作者信息，书本基础信息
+    metaData: {}, // 作者信息，书本基础信息
+    cfi: '' // 阅读进度
   },
   mutations: {
     set_fileName: (state, newVal) => {

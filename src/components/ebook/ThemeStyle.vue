@@ -14,7 +14,7 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
-import { themeList, addThemeLink } from '../../utils/book'
+import { themeList } from '../../utils/book'
 import { setUserHabit } from '../../utils/storage'
 export default {
   mixins: [ebookMixin],
@@ -35,7 +35,7 @@ export default {
       const themeName = this.themesList[index].name
       this.getBook.rendition.themes.select(themeName)
       setUserHabit(this.fileName, 'theme', index)
-      addThemeLink(index)
+      this.addThemeLink(index)
     }
   }
 }

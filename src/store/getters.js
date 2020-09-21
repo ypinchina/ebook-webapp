@@ -9,7 +9,6 @@ const book = {
   defaultTheme: state => state.book.defaultTheme,
   bookAvailable: state => state.book.bookAvailable,
   progress: state => state.book.progress,
-  locationObject: state => state.book.locationObject,
   section: state => state.book.section,
   cover: state => state.book.cover,
   metaData: state => state.book.metaData

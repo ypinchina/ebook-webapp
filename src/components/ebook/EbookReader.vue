@@ -7,7 +7,7 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
-import { themeList, addThemeLink } from '../../utils/book'
+import { themeList } from '../../utils/book'
 import { setUserHabit, getUserHabit } from '../../utils/storage'
 import Epub from 'epubjs'
 global.Epub = Epub
@@ -37,7 +37,13 @@ export default {
         height: window.innerHeight,
         method: 'default'
       })
-      this.rendition.display()
+      const lastLocation = getUserHabit(this.fileName, 'lastLocation')
+      if (lastLocation) {
+        this.display(lastLocation.start.cfi)
+        // this.setSection(lastLocation.start.index)
+      } else {
+        this.display()
+      }
       // 电子书渲染
       this.initFont()
       // 电子书字体初始化
@@ -49,7 +55,6 @@ export default {
         // this.navigation.toc.label 章节标题 .href跳转链接
         return this.book.locations.generate()
       }).then(() => {
-        this.setLocationObject(this.book.locations)
         this.setBookAvailable(true)
       })
       // 手势操作绑定
@@ -100,7 +105,6 @@ export default {
         })
       })
       this.book.loaded.metadata.then((obj) => {
-        console.log(obj)
         this.setMetaData(obj)
       })
     },
@@ -135,7 +139,7 @@ export default {
       }
     },
     setThemes (index) {
-      addThemeLink(index)
+      this.addThemeLink(index)
       this.setDefaultTheme(index)
       this.rendition.themes.select(this.themesList[index].name)
     },

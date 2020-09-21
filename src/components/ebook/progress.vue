@@ -69,16 +69,22 @@ export default {
         return readTime
       }
     },
-    progressInput (progress) {
-      this.setProgress(progress)
+    updateProgressBg () {
       this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
+    },
+    progressInput (progress) {
+      this.setProgress(progress).then(() => {
+        this.updateProgressBg()
+      })
     },
     changeProgress (progress) {
       const percentage = progress / 100
-      const location = progress > 0 ? this.locationObject.cfiFromPercentage(percentage) : 0
+      const location = progress > 0 ? this.getBook.locations.cfiFromPercentage(percentage) : 0
       this.getBook.rendition.display(location).then(() => {
         const currentSectionIndex = this.getBook.rendition.currentLocation().start.index
-        this.setSection(currentSectionIndex)
+        this.setSection(currentSectionIndex).then(() => {
+          this.refleshProgress()
+        })
       })
     },
     prevSection () {
@@ -93,7 +99,7 @@ export default {
     nextSection () {
       let currentSectionIndex = this.section
       if (this.bookAvailable) {
-        if (currentSectionIndex < this.locationObject.spine.length - 1) {
+        if (currentSectionIndex < this.getBook.locations.spine.length - 1) {
           currentSectionIndex = currentSectionIndex + 1
           this.setSection(currentSectionIndex).then(() => {
             this.sectionDisplay(currentSectionIndex)
@@ -107,14 +113,6 @@ export default {
         this.getBook.rendition.display(sectionObj.href).then(() => {
           this.refleshProgress()
         })
-      }
-    },
-    refleshProgress () {
-      const currentLocation = this.getBook.rendition.currentLocation()
-      try {
-        this.setProgress(Math.round(this.getBook.locations.percentageFromCfi(currentLocation.start.cfi) * 100))
-      } catch (err) {
-        return null
       }
     }
   }
@@ -149,9 +147,7 @@ export default {
       display inline-block
       height 100%
     .title
-      text-overflow ellipsis
-      overflow hidden
-      white-space nowrap
+      ellipsis()
   .progress
     flex 2
     width 100%

@@ -17,3 +17,17 @@ right() {
   align-items center
   justify-content flex-end
 }
+ellipsis() {
+  text-overflow ellipsis
+  overflow hidden
+  white-space nowrap
+}
+ellipsis2() {
+  display -webkit-box
+  -webkit-box-orient vertical
+  -webkit-line-clamp 2
+  white-space normal
+  overflow hidden
+  text-overflow ellipsis
+  word-break break-all
+}
