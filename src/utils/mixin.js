@@ -23,6 +23,7 @@ export const ebookMixin = {
       const currentLocation = this.getBook.rendition.currentLocation()
       if (this.getBook.locations && currentLocation.start) {
         setUserHabit(this.fileName, 'lastLocation', currentLocation)
+        this.setSection(currentLocation.start.index)
         this.setProgress(Math.round(this.getBook.locations.percentageFromCfi(currentLocation.start.cfi) * 100))
       }
     },
@@ -68,6 +69,17 @@ export const ebookMixin = {
       this.removeCss(process.env.VUE_APP_DEV_URL + '/theme/theme_night.css')
       this.removeCss(process.env.VUE_APP_DEV_URL + '/theme/theme_eye.css')
       this.removeCss(process.env.VUE_APP_DEV_URL + '/theme/theme_gold.css')
+    },
+    display (href) {
+      if (href) {
+        this.getBook.rendition.display(href).then(() => {
+          this.refleshProgress()
+        })
+      } else {
+        this.getBook.rendition.display().then(() => {
+          this.refleshProgress()
+        })
+      }
     }
   }
 }

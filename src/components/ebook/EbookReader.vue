@@ -40,7 +40,6 @@ export default {
       const lastLocation = getUserHabit(this.fileName, 'lastLocation')
       if (lastLocation) {
         this.display(lastLocation.start.cfi)
-        // this.setSection(lastLocation.start.index)
       } else {
         this.display()
       }
@@ -56,6 +55,7 @@ export default {
         return this.book.locations.generate()
       }).then(() => {
         this.setBookAvailable(true)
+        this.refleshProgress()
       })
       // 手势操作绑定
       this.initGesture()
@@ -109,12 +109,7 @@ export default {
       })
     },
     changeProgressForPage () {
-      const currentLocation = this.getBook.rendition.currentLocation()
-      const currentSectionIndex = currentLocation.start.index
-      if (currentSectionIndex !== this.section) {
-        this.setSection(currentSectionIndex)
-      }
-      this.setProgress(this.bookAvailable ? Math.round(this.getBook.locations.percentageFromCfi(currentLocation.start.cfi) * 100) : 0)
+      this.refleshProgress()
     },
     toggleTitleAndMenu () {
       this.setMenuVisible(!this.menuVisible)
