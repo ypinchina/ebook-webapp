@@ -50,8 +50,6 @@ export default {
       this.registerThemes()
       // 读取location对象
       this.book.ready.then(() => {
-        this.navigation = this.book.navigation
-        // this.navigation.toc.label 章节标题 .href跳转链接
         return this.book.locations.generate()
       }).then(() => {
         this.setBookAvailable(true)
@@ -106,6 +104,18 @@ export default {
       })
       this.book.loaded.metadata.then((obj) => {
         this.setMetaData(obj)
+      })
+      // 解析目录以及子目录
+      this.book.loaded.navigation.then(nav => {
+        const catalog = this.flatten(nav.toc)
+        function find (obj, level = 0) {
+          if (!obj.parent) {
+            return level
+          }
+          return find(catalog.filter(parentItem => parentItem.id === obj.parent)[0], ++level)
+        }
+        catalog.forEach(item => { item.level = find(item) })
+        this.setCatelog(catalog)
       })
     },
     changeProgressForPage () {

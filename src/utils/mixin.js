@@ -2,7 +2,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { setUserHabit } from './storage'
 export const ebookMixin = {
   computed: {
-    ...mapGetters(['section', 'fileName', 'cover', 'metaData', 'menuVisible', 'menuTag', 'defaultFontSize', 'getBook', 'defaultFontFamily', 'fontFamilyVisible', 'defaultTheme', 'bookAvailable', 'progress'])
+    ...mapGetters(['section', 'fileName', 'cover', 'metaData', 'menuVisible', 'menuTag', 'defaultFontSize', 'getBook', 'defaultFontFamily', 'fontFamilyVisible', 'defaultTheme', 'bookAvailable', 'progress', 'catalog'])
   },
   methods: {
     ...mapActions([
@@ -18,7 +18,9 @@ export const ebookMixin = {
       'setDefaultFamily',
       'setDefaultTheme',
       'setBookAvailable',
-      'setProgress']),
+      'setProgress',
+      'setCatalog'
+    ]),
     refleshProgress () {
       const currentLocation = this.getBook.rendition.currentLocation()
       if (this.getBook.locations && currentLocation.start) {
@@ -80,6 +82,9 @@ export const ebookMixin = {
           this.refleshProgress()
         })
       }
+    },
+    flatten (arr) {
+      return [].concat(...arr.map(item => [].concat(item, ...this.flatten(item.subitems))))
     }
   }
 }

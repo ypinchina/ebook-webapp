@@ -11,6 +11,7 @@ const book = {
   progress: state => state.book.progress,
   section: state => state.book.section,
   cover: state => state.book.cover,
-  metaData: state => state.book.metaData
+  metaData: state => state.book.metaData,
+  catalog: state => state.book.catalog
 }
 export default book

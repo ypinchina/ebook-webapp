@@ -37,6 +37,9 @@ const actions = {
   },
   setMetaData: ({ commit }, newObj) => {
     return commit('set_metaData', newObj)
+  },
+  setCatalog: ({ commit }, newArr) => {
+    return commit('set_catalog', newArr)
   }
 }
 export default actions
