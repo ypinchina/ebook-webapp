@@ -29,16 +29,18 @@
         </div>
       </div>
     </div>
+    <scroll></scroll>
   </div>
 </template>
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import { getUserHabit } from '../../utils/storage'
+import { scroll } from '../common/Scroll.vue'
 export default {
   mixins: [ebookMixin],
   components: {
-
+    scroll
   },
   data () {
     return {
